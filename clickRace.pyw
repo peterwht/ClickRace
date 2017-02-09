@@ -106,13 +106,8 @@ def game_intro():
                     quit()
 
         gameDisplay.fill(white)
-        message_to_screen("Click Race",
-                          blue,
-                          -100,
-                          "large")
-        message_to_screen("Make your car pass the finish line quicker then your opponent",
-                          black,
-                          -30)
+        message_to_screen("Click Race", blue, -100, "large")
+        message_to_screen("Make your car pass the finish line quicker then your opponent", black, -30)
 
         button("Play", 150, 500, 100, 50, green, light_green, action="Play")
         button("Controls", 350,500,100,50, yellow, light_yellow, action="Controls")
@@ -122,7 +117,7 @@ def game_intro():
         clock.tick(15)
 
 
-def car1win():
+def multiplayerCarWin(whichPlayer, textColor):
 
     end_time = pygame.time.get_ticks()
 
@@ -138,18 +133,12 @@ def car1win():
                 quit()
 
         gameDisplay.fill(white)
-        message_to_screen("Player 1 wins!",
-                          blue,
-                          -100,
-                          "large")
+        message_to_screen("{} wins!".format(whichPlayer), textColor, -100, "large")
         
         if len(str(time_taken)) == 4: 
-            message_to_screen("It took you:  " + str(time_taken)[0] + "." + str(time_taken)[1:3]  + " seconds", blue, -30, "medium")
+            message_to_screen("It took {}:  {}.{} seconds".format(whichPlayer, str(time_taken)[0], str(time_taken)[1:3]), textColor, -30, "medium")
         elif len(str(time_taken)) > 4:
-            message_to_screen("It took you:  " + str(time_taken)[0:2] + "." + str(time_taken)[1:3]  + " seconds", blue, -30, "medium")
-        
-        #message_to_screen("Player 2 you suck!", red, 10)
-        
+            message_to_screen("It took {}:  {}.{} seconds" .format(whichPlayer, str(time_taken)[0:2], str(time_taken)[1:3]), textColor, -30, "medium")        
        
 
         button("Play Again", 325, 425, 150, 50, green, light_green, action="Playagain")
@@ -158,6 +147,7 @@ def car1win():
 
         pygame.display.update()
         clock.tick(15)
+        
 def car1winC():
 
     end_time = pygame.time.get_ticks()
@@ -188,10 +178,6 @@ def car1winC():
         message_to_screen("It took you a total of: " + str(totalTime_taken)[0:2] + "." + str(time_taken)[1:3]  + " seconds", black, 40, "small")
         message_to_screen(" seconds to beat all of the levels", black, 70, "small")
             
-        
-        #message_to_screen("Player 2 you suck!", red, 10)
-        
-       
 
         button("Play Again", 325, 425, 150, 50, green, light_green, action="Playagain")
         
@@ -200,40 +186,6 @@ def car1winC():
         pygame.display.update()
         clock.tick(15)
         
-def car2win():
-
-    end_time = pygame.time.get_ticks()
-
-    time_taken = end_time-start_time
-
-    win = True
-
-    while win:
-
-        for event in pygame.event.get():
-            if event.type== pygame.QUIT:
-                pygame.quit()
-                quit()
-
-        gameDisplay.fill(white)
-        message_to_screen("Player 2 wins!",
-                          red,
-                          -100,
-                          "large")
-        if len(str(time_taken)) == 4: 
-            message_to_screen("It took you:  " + str(time_taken)[0] + "." + str(time_taken)[1:3]  + " seconds", red, -30, "medium")
-        elif len(str(time_taken)) > 4:
-            message_to_screen("It took you:  " + str(time_taken)[0:2] + "." + str(time_taken)[1:3]  + " seconds", red, -30, "medium")
-            
-        
-        #message_to_screen("Player 1 you suck!", red, -30)
-
-        button("Play Again", 325, 425, 150, 50, green, light_green, action="Playagain")
-        
-        button("Quit", 325,500,150,50, red, light_red, action="Quit")
-
-        pygame.display.update()
-        clock.tick(15)
 
 def computerwin():
 
@@ -1810,9 +1762,9 @@ def gameLoop(whichCarChoice, whichCarChoice2):
         gameDisplay.blit(whichCarChoice2, (car2x, display_height-250))
 
         if carx >= 660:
-            car1win()
+            multiplayerCarWin("Player 1", blue)
         if car2x >= 660:
-            car2win()
+            multiplayerCarWin("Player 2", red)
         
         pygame.display.update()
 
